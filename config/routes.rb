@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   constraints(ClientDomainConstraint.new) do
     devise_for :users, as: 'admin', controllers: { sessions: 'admin/sessions' }
     resources :home do
+      resources :profiles
 
     end
   end
