@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>App</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>App</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-  </head>
-  <% if user_signed_in? %>
-  <h2> Hello <%= current_user.email %> </h2>
-  <%= link_to 'Sign out', destroy_user_session_path, data: { 'turbo-method': :delete } %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+</head>
+<% if client_user_signed_in? %>
+  <h2> Hello <%= current_client_user.email %> </h2>
+  <h3> User: <%= current_client_user.role %> </h3>
+  <%= link_to 'Sign out', destroy_client_user_session_path, data: { 'turbo-method': :delete } %>
+<% elsif admin_user_signed_in? %>
+  <h2> Hello <%= current_admin_user.email %> </h2>
+  <h3> User: <%= current_admin_user.role %> </h3>
+  <%= link_to 'Sign out', destroy_admin_user_session_path, data: { 'turbo-method': :delete } %>
+<% elsif request.host == 'admin.com' %>
+  <%= link_to 'Sign in', new_admin_user_session_path %>
 <% else %>
-  <%= link_to 'Sign in', new_user_session_path %>
+  <%= link_to 'Sign in', new_client_user_session_path %>
 <% end %>
-  <body>
-  <div> <p class="notice"><%= notice %></p></div>
-  <div><p class="alert"><%= alert %></p></div>
-    <%= yield %>
-  </body>
+<body>
+<div><p class="notice"><%= notice %></p></div>
+<div><p class="alert"><%= alert %></p></div>
+<%= yield %>
+</body>
 </html>
