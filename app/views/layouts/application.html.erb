@@ -9,8 +9,15 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
-
+  <% if user_signed_in? %>
+  <h2> Hello <%= current_user.email %> </h2>
+  <%= link_to 'Sign out', destroy_user_session_path, data: { 'turbo-method': :delete } %>
+<% else %>
+  <%= link_to 'Sign in', new_user_session_path %>
+<% end %>
   <body>
+  <div> <p class="notice"><%= notice %></p></div>
+  <div><p class="alert"><%= alert %></p></div>
     <%= yield %>
   </body>
 </html>
